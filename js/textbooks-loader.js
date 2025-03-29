@@ -1,50 +1,69 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const textbooksLink = document.getElementById('textbooks-link');
-    const textbooksContainer = document.getElementById('textbooks-container');
+document.addEventListener('DOMContentLoaded', function () {
+    const table = document.getElementById('textbooksTable');
+    const tableBody = table.querySelector('tbody');
+    const searchInput = document.getElementById('searchInput');
 
-    if (textbooksLink && textbooksContainer) {
-        textbooksLink.addEventListener('click', function() {
-            const target = this.getAttribute('data-target');
+    function loadTextbooks() {
+        fetch('textbooks.json')
+            .then(response => response.json())
+            .then(textbooks => {
+                displayTextbooks(textbooks);
+            })
+            .catch(error => {
+                console.error('Error loading textbooks:', error);
+                tableBody.innerHTML = '<tr><td colspan="3">Failed to load textbooks.</td></tr>';
+            });
+    }
 
-            fetch(target)
-                .then(response => response.text())
-                .then(html => {
-                    textbooksContainer.innerHTML = html;
-                    //Reinitialize the scripts that are used in the textbooks.html
-                    if(typeof initScripts === 'function'){
-                        initScripts()
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading textbooks:', error);
-                    textbooksContainer.innerHTML = '<p>Failed to load textbooks.</p>';
-                });
+    function displayTextbooks(textbooks) {
+        tableBody.innerHTML = '';
+        textbooks.forEach(textbook => {
+            const row = tableBody.insertRow();
+            row.innerHTML = `
+                <td>${textbook.title}</td>
+                <td>${textbook.authors}</td>
+                <td>${textbook.course}</td>
+                <td><a href="${textbook.downloadLink}" target="_blank"><i class="icon-download"></i></a></td>
+            `;
         });
     }
-});
 
-function initScripts(){
-    fetch('Textbooks/textbooks.json')
-        .then(response => response.json())
-        .then(data => {
-            const textbooksList = document.getElementById('textbooks-list');
-            let html = '';
-            data.forEach(textbook => {
-                html += `<div class="textbook-item col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
-                            <a href="${textbook.downloadLink}" target="_blank" class="textbook-link">
-                                <div class="overlay">
-                                    <div class="portfolio-item-content">
-                                        <h3>${textbook.title}</h3>
-                                        <p>${textbook.authors}</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>`;
-            });
-            textbooksList.innerHTML = html;
-        })
-        .catch(error => {
-            console.error('Error fetching textbooks:', error);
-            document.getElementById('textbooks-list').innerHTML = '<p>Failed to load textbooks.</p>';
+    function sortTable(columnIndex, ascending) {
+        const rows = Array.from(tableBody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+            const aValue = a.cells[columnIndex].textContent.toLowerCase();
+            const bValue = b.cells[columnIndex].textContent.toLowerCase();
+            return ascending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
         });
-}
+        rows.forEach(row => tableBody.appendChild(row));
+    }
+
+    function filterTextbooks(searchText) {
+        fetch('textbooks.json')
+            .then(response => response.json())
+            .then(textbooks => {
+                const filteredTextbooks = textbooks.filter(textbook => {
+                    const name = textbook.name.toLowerCase();
+                    const author = textbook.author.toLowerCase();
+                    const course = textbook.course.toLowerCase();
+                    const search = searchText.toLowerCase();
+                    return name.includes(search) || author.includes(search) || course.includes(search);
+                });
+                displayTextbooks(filteredTextbooks);
+            });
+    }
+
+    table.querySelectorAll('th').forEach((th, index) => {
+        let ascending = true;
+        th.addEventListener('click', () => {
+            sortTable(index, ascending);
+            ascending = !ascending;
+        });
+    });
+
+    searchInput.addEventListener('input', () => {
+        filterTextbooks(searchInput.value);
+    });
+
+    loadTextbooks();
+});

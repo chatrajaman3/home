@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Unfold &mdash; A onepage portfolio HTML template by Colorlib</title>
+  <title>Chat/Textbooks</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
@@ -16,9 +16,35 @@
   <link rel="stylesheet" href="css/vendor/animate.min.css">
   <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
   <link rel="stylesheet" href="css/vendor/jquery.fancybox.min.css">
+  <link rel="icon" type="image/x-icon" href="images/favicon_1.ico">
 
   <!-- Theme Style -->
   <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    table {
+        width: 150%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 20px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #2c2c2c;
+        cursor: pointer;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+</style>
 
 </head>
 
@@ -69,19 +95,18 @@
                   </ul>
                 </li>
                 <li><a href="index.html#portfolio-section" class="nav-link">Portfolio</a></li>
-                <li><a href="index.html#about-section" class="nav-link">About</a></li>
-                <li><a href="index.html#services-section" class="nav-link">Services</a></li>
+                <li><a href="index.html#courses-section" class="nav-link">Courses</a></li>
+                <li>
+                    <a href="textbooks.html" class="nav-link"> <h4>📘</h4> </a>
+                  </li>  
               </ul>
             </div>
-            <div class="site-logo pos-absolute">
-              <a href="index.html" class="unslate_co--site-logo">Unfold<span>.</span></a>
-            </div>
+           
             <div class="col-md-5 text-right text-lg-left">
               <ul class="site-nav-ul js-clone-nav text-left d-none d-lg-inline-block">
-                <li><a href="index.html#skills-section" class="nav-link">Skills</a></li>
-                <li><a href="index.html#testimonial-section" class="nav-link">Testimonial</a></li>
-                <li><a href="index.html#journal-section" class="nav-link">Journal</a></li>
-                <li><a href="index.html#contact-section" class="nav-link">Contact</a></li>
+                <li><a href="index.html#journal-section" class="nav-link">Work</a></li>
+                <li><a href="https://www.linkedin.com/in/chathilrajaman3/" target="_blank">LinkedIn</a></li>
+                <li><a href="Documentation Files/portfolio_resume_28_April_2025.pdf" target="_blank" class="nav-link" style="display:inline-block; padding:5px 10px; border:2px solid white; border-radius:5px;">Resume</a></li>
               </ul>
 
               <ul class="site-nav-ul-none-onepage text-right d-inline-block d-lg-none">
@@ -100,20 +125,21 @@
           <div class="row align-items-center">
 
             <div class="col-md-10 mx-auto text-center">
-              <h1 class="heading" data-aos="fade-up">TEXTOOKSS!!!</h1>
-              <h2 class="subheading" data-aos="fade-up" data-aos-delay="100">Far far away, behind the word mountains, far from the countries.</h2>
+              <h1 class="heading" data-aos="fade-up">Textbooks</h1>
+              <h2 class="subheading" data-aos="fade-up" data-aos-delay="100">Found below.</h2>
             </div>
 
           </div>
         </div>
 
-        <!-- dov -->
+        <!-- dov 
         <a href="#portfolio-single-section" class="mouse-wrap smoothscroll">
           <span class="mouse">
             <span class="scroll"></span>
           </span>
           <span class="mouse-label">Scroll</span>
         </a>
+        -->
 
       </div>
       <!-- END .cover-v1 -->
@@ -122,21 +148,15 @@
         <div class="portfolio-single-wrap unslate_co--section" id="portfolio-single-section">
 
           <div class="portfolio-single-inner">
-            <h2 class="heading-portfolio-single-h2">TEXTOOKKKS</h2>
+            <h2 class="heading-portfolio-single-h2"></h2>
 
             <div class="row justify-content-between mb-5">
-              <div class="col-12 mb-4">
-                <div class="owl-carousel single-slider">
-                  <figure class="mb-4">
-                    <img src="images/work_1_full.jpg" alt="Image" class="img-fluid">
-                  </figure>
-                  <figure class="mb-4">
-                    <img src="images/work_1_a_full.jpg" alt="Image" class="img-fluid">
-                  </figure>
-                </div>
-              </div>
+              
+
               <div class="col-12 mb-5">
                 <div class="row">
+
+                  <!--
                   <div class="col-sm-6 col-md-6 col-lg-3">
                     <div class="detail-v1">
                       <span class="detail-label">Project Date</span>
@@ -161,13 +181,35 @@
                       <span class="detail-val"><a href="#">https:///</a></span>
                     </div>
                   </div>
+                  -->
+
+
                 </div>
               </div>
+              <!--
               <div class="col-md-6 pr-md-5">
                 <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
               </div>
               <div class="col-md-6 pl-md-5">
                 <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
+              </div>
+            -->
+              <div class="col-md-6 pl-md-5">
+                <input type="text" id="searchInput" placeholder="Search textbooks...">
+    
+                    <table id="textbooksTable">
+                         <thead>
+                             <tr>
+                                <th data-sort="title">Name <br><br> </th>
+                                <th data-sort="authors">Author <br><br> </th>
+                                <th data-sort="course">Course <br><br> </th>
+                                <th> Download <br><br> </th>
+                            </tr>
+                        </thead>
+                    <tbody></tbody>
+                    </table>
+
+                <p> <br> <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> </p>
               </div>
             </div>
 
@@ -218,7 +260,7 @@
 
   <script src="js/scripts-dist.js"></script>
   <script src="js/main.js"></script>
-
+  <script src="js/textbooks-loader.js"></script>
 
 </body>
 

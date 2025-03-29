@@ -1,12 +1,33 @@
 [
     {
-      "title": "ELEC 221: Signals & Systems [2nd Edition]",
+      "title": "Signals & Systems [2nd Edition]",
       "authors": "Oppenheim, Willsky, Nawab",
+      "course": "ELEC 221",
       "downloadLink": "textbooks/Oppenheim, Willsky, Nawab - Signals & Systems [2nd Edition].pdf"
     },
     {
-      "title": "ELEC 221: [SOLUTION] Signals & Systems [2nd Edition]",
+      "title": "[SOLUTION] Signals & Systems [2nd Edition]",
       "authors": "Oppenheim, Willsky, Nawab",
+      "course": "ELEC 221",
       "downloadLink": "textbooks/[SOLUTION] Oppenheim, Willsky, Nawab - Signals & Systems [2nd Edition].pdf"
+    },
+    {
+      "title": "Electronic Communications [4th Edition] (2014)",
+      "authors": "Roddy, Coolen",
+      "course": "ELEC",
+      "downloadLink": "textbooks/Roddy, Coolen - Electronic Communications [4th Edition] (2014).pdf"
+    },
+    {
+      "title": "Hacking, Computer Hacking, Security Testing,Penetration Testing, and Basic Security",
+      "authors": "Hall, Watson",
+      "course": "CPEN",
+      "downloadLink": "textbooks/Hall, Watson - Hacking, Computer Hacking, Security Testing,Penetration Testing, and Basic Security.pdf"
+    },
+    {
+      "title": "CMOS VLSI Design A Circuits and Systems Perspective",
+      "authors": "Weste, Harris",
+      "course": "ELEC",
+      "downloadLink": "textbooks/CMOS VLSI Design A Circuits and Systems Perspective.pdf"
     }
+
   ]
