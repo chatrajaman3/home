@@ -14,9 +14,12 @@
     <link rel="stylesheet" href="css/vendor/animate.min.css">
     <link rel="stylesheet" href="css/vendor/aos.css">
     <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="css/vendor/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="css/vendor/jquery.fancybox.min.css"> 
     <link rel="icon" type="image/x-icon" href="images/favicon_1.ico">
+    <link rel="stylesheet" href="css/slider-styles.css">
     <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+    <script src="js/textbooks-loader.js"></script>
+
 
     
 
@@ -79,8 +82,10 @@
                   </ul>
                 </li>
                 <li><a href="#portfolio-section" class="nav-link">Portfolio</a></li>
-                <!--<li><a href="#about-section" class="nav-link">About</a></li>-->
                 <li><a href="#courses-section" class="nav-link">Courses</a></li>
+                <li>
+                  <a href="textbooks.html" class="ajax-load-page"> <h4>📘</h4> </a>
+                </li>              
               </ul>
             </div>
             <div class="col-md-5 text-right text-lg-left">
@@ -88,7 +93,7 @@
                 <!--<li><a href="#skills-section" class="nav-link">Skills</a></li>-->
                 <li><a href="#journal-section" class="nav-link">Work</a></li>
                 <li><a href="https://www.linkedin.com/in/chathilrajaman3/" target="_blank">LinkedIn</a></li>
-                <li><a href="#testimonial-section" class="nav-link" style="display:inline-block; padding:5px 10px; border:2px solid white; border-radius:5px;">Resume</a></li>
+                <li><a href="Documentation Files/portfolio_resume_28_April_2025.pdf" target="_blank" class="nav-link" style="display:inline-block; padding:5px 10px; border:2px solid white; border-radius:5px;">Resume</a></li>
               </ul>
 
               <ul class="site-nav-ul-none-onepage text-right d-inline-block d-lg-none">
@@ -101,6 +106,23 @@
 
       </nav>
       <!-- END nav -->
+
+ 
+      <!--
+      <div id="textbooks-container" class="row gutter-isotope-item">
+        <div class="item branding packaging col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
+          <a href="portfolio-single-1.html" class="portfolio-item isotope-item gsap-reveal-img ajax-load-page" data-id="1">
+              <div class="overlay">
+                <span class="wrap-icon icon-link2"></span>
+                <div class="portfolio-item-content">
+                  <h3>RISC Machine</h3>
+                  <p>System Verilog, ModelSim, Quartus</p>
+                </div>
+              </div>
+              <img src="images/risc_machine_image1.jpg" class="lazyload  img-fluid" alt="Images" />
+            </a>
+        </div>
+      </div>-->
 
       <div class="cover-v1 jarallax" style="background-image: url('images/cover_bg_2.jpg');" id="home-section">
         <div class="container">
@@ -153,44 +175,56 @@
               </div> -->
             </div>
 
+          <div id="posts" class="row gutter-isotope-item">
+            <div class="item branding packaging col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
+              <a href="portfolio-single-1.html" class="portfolio-item isotope-item gsap-reveal-img ajax-load-page" data-id="1">
+                  <div class="overlay">
+                    <span class="wrap-icon icon-link2"></span>
+                    <div class="portfolio-item-content">
+                      <h3>RISC Machine</h3>
+                      <p>System Verilog, ModelSim, Quartus</p>
+                    </div>
+                  </div>
+                  <img src="images/risc_machine_image1.jpg" class="lazyload  img-fluid" alt="Images" />
+                </a>
+            </div>
 
+            <div class="item branding packaging col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
+              <a href="portfolio-single-2.html" class="portfolio-item isotope-item gsap-reveal-img ajax-load-page" data-id="2">
+                  <div class="overlay">
+                    <span class="wrap-icon icon-link2"></span>
+                    <div class="portfolio-item-content">
+                      <h3>Reflow Oven Controller</h3>
+                      <p>5081 Assembly, PWM, Python</p>
+                    </div>
+                  </div>
+                  <img src="images/elec291_project1_image1.png" class="lazyload  img-fluid" alt="Images" />
+                </a>
+            </div>
             
-            <div id="posts" class="row gutter-isotope-item">
               <div class="item web branding col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
-                <a href="portfolio-single-1.html" class="portfolio-item ajax-load-page isotope-item gsap-reveal-img" data-id="1">
+                <a href="portfolio-single-3.html" class="portfolio-item ajax-load-page isotope-item gsap-reveal-img" data-id="3">
                     <div class="overlay">
                       <span class="wrap-icon icon-link2"></span>
                       <div class="portfolio-item-content">
-                        <h3>Shoe Rebranding</h3>
-                        <p>web, branding</p>
+                        <h3>555 Timer/Capacitance Meter</h3>
+                        <p>EFM8LB1, C programming language</p>
                       </div>
                     </div>
                     <img src="images/lab4_img.jpg" class="lazyload  img-fluid" alt="Images" />
                   </a>
               </div>
+
               <div class="item branding packaging illustration col-sm-6 col-md-6 col-lg-4 isotope-mb-2 ">
-                <a href="portfolio-single-3.html" class="portfolio-item ajax-load-page item-portrait isotope-item gsap-reveal-img" data-id="3">
+                <a href="portfolio-single-4.html" class="portfolio-item ajax-load-page item-portrait isotope-item gsap-reveal-img" data-id="4">
                     <div class="overlay">
                       <span class="wrap-icon icon-link2"></span>
                       <div class="portfolio-item-content">
-                        <h3>Reworking</h3>
-                        <p>branding, packaging, illustration</p>
+                        <h3>Magnitude and Phase Measurement</h3>
+                        <p>EFM8LB1, C programming language</p>
                       </div>
                     </div>
                     <img src="images/lab5_img.jpg" class="lazyload  img-fluid" alt="Images" />
-                  </a>
-              </div>
-
-              <div class="item branding packaging col-sm-6 col-md-6 col-lg-4 isotope-mb-2">
-                <a href="portfolio-single-4.html" class="portfolio-item isotope-item gsap-reveal-img ajax-load-page" data-id="4">
-                    <div class="overlay">
-                      <span class="wrap-icon icon-link2"></span>
-                      <div class="portfolio-item-content">
-                        <h3>Modern Building</h3>
-                        <p>branding, packaging</p>
-                      </div>
-                    </div>
-                    <img src="images/lab6_img.jpg" class="lazyload  img-fluid" alt="Images" />
                   </a>
               </div>
 
@@ -292,22 +326,34 @@
  
       <div class="unslate_co--section">
         <div class="container">
-          <div class="owl-carousel logo-slider">
-            <div class="logo-v1 gsap-reveal">
-              <img src="images/lab4_img.jpg" alt="Image" class="img-fluid">
+            <div class="owl-carousel logo-slider">
+              <div class="logo-v1 gsap-reveal">
+                <video autoplay loop muted playsinline class="img-fluid logo-item">
+                    <source src="images/lab3_video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+              </div>
+                <div class="logo-v1 gsap-reveal">
+                    <img src="images/lab5_img.jpg" alt="Image" class="img-fluid logo-item">
+                </div>
+                <div class="logo-v1 gsap-reveal">
+                    <img src="images/lab6_img.jpg" alt="Image" class="img-fluid logo-item">
+                </div>
+                <div class="logo-v1 gsap-reveal">
+                    <video autoplay loop muted playsinline class="img-fluid logo-item">
+                        <source src="images/lab2_video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="logo-v1 gsap-reveal">
+                  <video autoplay loop muted playsinline class="img-fluid logo-item">
+                      <source src="images/project2_video1 - Trim.mov" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+              </div>
             </div>
-            <div class="logo-v1 gsap-reveal">
-              <img src="images/lab5_img.jpg" alt="Image" class="img-fluid">
-            </div>
-            <div class="logo-v1 gsap-reveal">
-              <img src="images/lab6_img.jpg" alt="Image" class="img-fluid">
-            </div>
-            <!--<div class="logo-v1 gsap-reveal">
-              <img src="images/logo-adobe.png" alt="Image" class="img-fluid">
-            </div> -->
-          </div>
         </div>
-      </div>
+    </div>
 
       <div class="unslate_co--section" id="about-section">
         <div class="container">
@@ -328,9 +374,10 @@
                   <h3 class="mb-4 heading-h3"><span class="gsap-reveal">Teaching Assistant - APSC 160</span></h3>
                   <p class="lead gsap-reveal">Lecture Teaching Assistant, University of British Columbia</p>
                   <p class="mb-4 gsap-reveal">
-                      As a lecture TA for APSC 160, I help students understand core programming concepts, address misconceptions, 
-                      and make connections to future courses. I strive to create an engaging learning environment where students feel 
-                      confident in developing their problem-solving skills.
+                    <ul>
+                      <li>Offered individualized support to students in C programming and Arduino-based microcontroller development</li>
+                      <li>Debugged code and designed exam questions for APSC 160: Introduction to Computation in Engineering Design</li>
+                    </ul>              
                   </p>
                   <p class="gsap-reveal">
                       <a href="#" class="btn btn-outline-pill btn-custom-light">Resume</a>

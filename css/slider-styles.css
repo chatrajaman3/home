@@ -1,0 +1,25 @@
+.logo-item {
+    /* Replace with the actual dimensions of your images */
+    /* Example, if all images are 300px wide and 200px tall: */
+    width: 500px;
+    height: 200px;
+    object-fit: cover; /* or contain */
+}
+
+/* If images have varying sizes, use max-width/max-height: */
+/*
+.logo-item {
+    max-width: 300px;
+    max-height: 200px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+*/
+
+.logo-v1 video {
+    width: 700px;
+    height: 200px;
+    object-fit: cover; /* or contain */
+}
+

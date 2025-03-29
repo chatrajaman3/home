@@ -1,6 +1,8 @@
 
 .grid-item {
   position: relative;
+  height: 300px; /* Adjust this value as needed */ //addded
+  overflow: hidden; /*added this to prevent overflow, if needed*/ //added
 }
 
 .grid-item:before {
@@ -46,6 +48,8 @@
     }
   }
 }
+
+
 .portfolio-item, .blog-item {
   display: block;
   overflow: hidden;
