@@ -12,6 +12,30 @@
       "downloadLink": "textbooks/[SOLUTION] Oppenheim, Willsky, Nawab - Signals & Systems [2nd Edition].pdf"
     },
     {
+      "title": "David J. Griffiths-Introduction to Electrodynamics-Addison-Wesley (2012)",
+      "authors": "Griffiths",
+      "course": "ELEC 211",
+      "downloadLink": "textbooks/David J. Griffiths-Introduction to Electrodynamics-Addison-Wesley (2012).pdf"
+    },
+    {
+      "title": "William H. Hayt, Jr. and John A. Buck - Engineering Electromagnetics-McGraw-Hill Education (2018)",
+      "authors": "Hayt, Buck",
+      "course": "ELEC 211",
+      "downloadLink": "textbooks/William H. Hayt, Jr. and John A. Buck - Engineering Electromagnetics-McGraw-Hill Education (2018).pdf"
+    },
+    {
+      "title": "Electromagnetics_Vol1",
+      "authors": "ELLINGSON",
+      "course": "ELEC 211",
+      "downloadLink": "textbooks/Electromagnetics_Vol1.pdf"
+    },
+    {
+      "title": "Electromagnetics_Vol1_Problems",
+      "authors": "ELLINGSON",
+      "course": "ELEC 211",
+      "downloadLink": "textbooks/Electromagnetics_Vol1_Problems.pdf"
+    },
+    {
       "title": "Electronic Communications [4th Edition] (2014)",
       "authors": "Roddy, Coolen",
       "course": "ELEC",
@@ -28,6 +52,12 @@
       "authors": "Weste, Harris",
       "course": "ELEC",
       "downloadLink": "textbooks/CMOS VLSI Design A Circuits and Systems Perspective.pdf"
+    },
+    {
+      "title": "Serway, Jewett - Physics for Scientists and Engineers with Modern Physics [9th Edition]",
+      "authors": "Serway, Jewett",
+      "course": "PHYS",
+      "downloadLink": "textbooks/Serway, Jewett - Physics for Scientists and Engineers with Modern Physics [9th Edition].pdf"
     }
 
   ]
