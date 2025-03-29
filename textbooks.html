@@ -23,14 +23,14 @@
 
   <style>
     table {
-        width: 150%;
+        width: 180%;
         border-collapse: collapse;
     }
 
     th,
     td {
         border: 1px solid #ddd;
-        padding: 20px;
+        padding: 10px;
         text-align: left;
     }
 
@@ -43,6 +43,21 @@
         width: 100%;
         padding: 8px;
         margin-bottom: 10px;
+    }
+    th[data-sort="title"] {
+    width: 30%; /* Adjust percentages as needed */
+    }
+
+    th[data-sort="authors"] {
+        width: 10%;
+    }
+
+    th[data-sort="course"] {
+        width: 8%;
+    }
+
+    th:last-child {
+        width: 1%;
     }
 </style>
 
@@ -194,15 +209,15 @@
                 <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
               </div>
             -->
-              <div class="col-md-6 pl-md-5">
+              <div class="col-md-6 pl-md-7">
                 <input type="text" id="searchInput" placeholder="Search textbooks...">
     
                     <table id="textbooksTable">
                          <thead>
                              <tr>
-                                <th data-sort="title">Name <br><br> </th>
-                                <th data-sort="authors">Author <br><br> </th>
-                                <th data-sort="course">Course <br><br> </th>
+                                <th data-sort="title">Title ☰<br><br> </th>
+                                <th data-sort="authors">Author ☰<br><br> </th>
+                                <th data-sort="course">Course ☰<br><br> </th>
                                 <th> Download <br><br> </th>
                             </tr>
                         </thead>
@@ -223,14 +238,14 @@
         <div class="row justify-content-center">
           <div class="col-md-7">
 
-            <div class="footer-site-logo"><a href="#">Unfold<span>.</span></a></div>
+            <div class="footer-site-logo"><a href="#"><span></span></a></div>
 
             <ul class="footer-site-social">
-              <li><a href="#">Facebook</a></li>
-              <li><a href="#">Twitter</a></li>
+              <li><a href="#"> </a></li>
+              <li><a href="#"></a></li>
               <li><a href="#">Instagram</a></li>
-              <li><a href="#">Dribbble</a></li>
-              <li><a href="#">Behance</a></li>
+              <li><a href="#"></a></li>
+              <li><a href="#"></a></li>
             </ul>
 
             <p class="site-copyright">
