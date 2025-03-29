@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => {
                 console.error('Error loading textbooks:', error);
-                tableBody.innerHTML = '<tr><td colspan="3">Failed to load textbooks.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="4">Failed to load textbooks.</td></tr>'; // Corrected colspan
             });
     }
 
@@ -43,11 +43,11 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(textbooks => {
                 const filteredTextbooks = textbooks.filter(textbook => {
-                    const name = textbook.name.toLowerCase();
-                    const author = textbook.author.toLowerCase();
-                    const course = textbook.course.toLowerCase();
+                    const title = textbook.title.toLowerCase(); // Corrected property name
+                    const authors = textbook.authors.toLowerCase(); // Corrected property name
+                    const course = textbook.course.toLowerCase(); // Corrected property name
                     const search = searchText.toLowerCase();
-                    return name.includes(search) || author.includes(search) || course.includes(search);
+                    return title.includes(search) || authors.includes(search) || course.includes(search);
                 });
                 displayTextbooks(filteredTextbooks);
             });
