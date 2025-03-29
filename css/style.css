@@ -256,7 +256,7 @@ a, a:hover {
   left: 0;
   top: 100%;
   min-width: 200px;
-  background: #fff;
+  background: #050505;
   padding: 20px 0px;
   margin-top: 20px;
   -webkit-box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
@@ -264,6 +264,10 @@ a, a:hover {
   -webkit-transition: 0.2s 0s;
   -o-transition: 0.2s 0s;
   transition: 0.2s 0s;
+}
+
+b {
+  font-weight: 1000; /* Or 800, 900 */
 }
 
 .unslate_co--site-nav .site-nav-ul > li.has-children > .dropdown > li, .unslate_co--site-nav .site-nav-ul > li.has-children > ul > li, .unslate_co--site-nav .site-nav-ul-none-onepage > li.has-children > .dropdown > li, .unslate_co--site-nav .site-nav-ul-none-onepage > li.has-children > ul > li {
@@ -285,7 +289,7 @@ a, a:hover {
   padding-left: 30px;
   padding-right: 30px;
   display: block;
-  color: gray;
+  color: rgb(255, 255, 255);
 }
 
 .unslate_co--site-nav .site-nav-ul > li.has-children > .dropdown > li a:hover, .unslate_co--site-nav .site-nav-ul > li.has-children > ul > li a:hover, .unslate_co--site-nav .site-nav-ul-none-onepage > li.has-children > .dropdown > li a:hover, .unslate_co--site-nav .site-nav-ul-none-onepage > li.has-children > ul > li a:hover {
