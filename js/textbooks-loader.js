@@ -1,4 +1,34 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+    const passwordForm = document.getElementById('passwordForm');
+    const contentArea = document.getElementById('contentArea');
+    const passwordInput = document.getElementById('passwordInput');
+    const submitPassword = document.getElementById('submitPassword');
+    const passwordError = document.getElementById('passwordError');
+
+    const correctPassword = 'Watt'; // Replace with your password
+
+    submitPassword.addEventListener('click', function() {
+        checkPassword();
+    });
+
+    passwordInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent the default form submission
+            submitPassword.click(); // Simulate a click on the submit button
+        }
+    });
+
+    function checkPassword() {
+        if (passwordInput.value === correctPassword) {
+            passwordForm.style.display = 'none';
+            contentArea.style.display = 'block';
+            loadTextbooks(); // Your function to load the table data
+        } else {
+            passwordError.style.display = 'block';
+        }
+    }
+
     const table = document.getElementById('textbooksTable');
     const tableBody = table.querySelector('tbody');
     const searchInput = document.getElementById('searchInput');
