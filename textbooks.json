@@ -1,5 +1,11 @@
 [
     {
+      "title": "Digital Design and Computer Architecture Second edition",
+      "authors": "Harris, David Money, Harris, Sarah L",
+      "course": "CPEN 311",
+      "downloadLink": "textbooks/Digital design and computer architecture -- Harris, David Money; Harris, Sarah L_ -- Second edition, reprinted, 2012;2015 -- Morgan Kaufmann -- 9780040000802.pdf"
+    },
+    {
       "title": "Signals & Systems [2nd Edition]",
       "authors": "Oppenheim, Willsky, Nawab",
       "course": "ELEC 221",
