@@ -1,5 +1,11 @@
 [
     {
+      "title": "Design of Analog CMOS Integrated Circuits Second edition",
+      "authors": "Behzad Razavi",
+      "course": "ELEC 401",
+      "downloadLink": "textbooks/Design_of_Analog_CMOS_Integrated_Circuit.pdf"
+    },
+    {
       "title": "Digital Design and Computer Architecture Second edition",
       "authors": "Harris, David Money, Harris, Sarah L",
       "course": "CPEN 311",
