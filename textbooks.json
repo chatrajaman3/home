@@ -1,5 +1,17 @@
 [
     {
+      "title": "PLL Performance, Sim, Design 4th Edition",
+      "authors": "Dean Banerjee",
+      "course": "PLL",
+      "downloadLink": "textbooks/PLL_Performance, Simulation, and Design_4th_edition.pdf"
+    },
+    {
+      "title": "Analog Integrated Circuit Design 2nd Edition",
+      "authors": "Carusone, Johns, Martin",
+      "course": "ELEC 401",
+      "downloadLink": "textbooks/Analog Integrated Circuit Design_2nd Edition.pdf"
+    },
+    {
       "title": "Design of Analog CMOS Integrated Circuits Second edition",
       "authors": "Behzad Razavi",
       "course": "ELEC 401",
