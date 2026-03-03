@@ -1,5 +1,23 @@
 [
     {
+      "title": "Digital Systems Engineering 2008",
+      "authors": "William J. Dally, John W. Poulton",
+      "course": "ELEC",
+      "downloadLink": "textbooks/Digital Systems Engineering -- William J_ Dally, John W_ Poulton -- 1, PS, 2008.pdf"
+    },
+    {
+      "title": "CMOS Circuit Design, Layout, and Simulation, 3rd Edition (IEEE Press Series on Microelectronic Systems)",
+      "authors": "R. Jacob Baker",
+      "course": "ELEC",
+      "downloadLink": "textbooks/CMOS Circuit Design, Layout, and Simulation, 3rd Edition (IEEE Press Series on Microelectronic Systems).pdf"
+    },
+    {
+      "title": "Design of CMOS phase-locked loops 2020",
+      "authors": "Behzad Razavi",
+      "course": "ELEC",
+      "downloadLink": "textbooks/Design of CMOS phase-locked loops _ from circuit level to -- Behzad Razavi -- Cambridge, United Kingdom, 2020.pdf"
+    },
+    {
       "title": "PLL Performance, Sim, Design 4th Edition",
       "authors": "Dean Banerjee",
       "course": "PLL",
