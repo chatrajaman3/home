@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>CPEN 311: Multi-Core RC4 Cracking Circuit - Chathil Rajamanthree</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta name="description" content="CPEN 311: Multi-Core RC4 Cracking Circuit project">
+  <meta name="keywords" content="FPGA, RC4, Cryptography, VHDL, SystemVerilog">
+  <meta name="author" content="">
+
+  <link rel="stylesheet" href="css/vendor/icomoon/style.css">
+  <link rel="stylesheet" href="css/vendor/owl.carousel.min.css">
+  <link rel="stylesheet" href="css/vendor/aos.css">
+  <link rel="stylesheet" href="css/vendor/animate.min.css">
+  <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/vendor/jquery.fancybox.min.css">
+
+  <!-- Theme Style -->
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="portfolio-single-wrap unslate_co--section" id="portfolio-single-section">
+
+      <div class="portfolio-single-inner">
+        <h2 class="heading-portfolio-single-h2">CPEN 311: Multi-Core RC4 Cracking Circuit</h2>
+
+        <div class="row justify-content-between mb-5">
+          <div class="col-12 mb-4">
+            <figure class="mb-4">
+              <img src="images/lab 4 schematic.png" alt="RC4 Cracking Circuit Schematic" class="img-fluid" style="max-height: 400px; object-fit: cover;">
+            </figure>
+          </div>
+          <div class="col-12 mb-5">
+            <div class="row">
+              <div class="col-sm-6 col-md-6 col-lg-3">
+                <div class="detail-v1">
+                  <span class="detail-label">Course</span>
+                  <span class="detail-val">CPEN 311</span>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-3">
+                <div class="detail-v1">
+                  <span class="detail-label">Technologies</span>
+                  <span class="detail-val">VHDL, SystemVerilog</span>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-3">
+                <div class="detail-v1">
+                  <span class="detail-label">Type</span>
+                  <span class="detail-val">Cryptography & Parallel Processing</span>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-3">
+                <div class="detail-v1">
+                  <span class="detail-label">Repository</span>
+                  <span class="detail-val"><a href="https://github.com/chatrajaman3/CPEN311_git" target="_blank" style="display: inline-flex; align-items: center; gap: 8px;"><span class="icon-github" style="font-size: 20px;"></span><span class="icon-arrow-right" style="font-size: 14px;"></span></a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 pr-md-5">
+            <p>Lab 4 implements a hardware-accelerated RC4 cryptographic algorithm targeting key discovery through parallel brute-force processing. This lab demonstrates advanced FPGA design principles including multi-core architecture, efficient resource utilization, and cryptographic hardware implementation.</p>
+            <p><strong>Key Accomplishments:</strong></p>
+            <ul>
+              <li>Implemented RC4 stream cipher algorithm in VHDL with complete key scheduling algorithm (KSA) and pseudo-random generation algorithm (PRGA) stages</li>
+              <li>Designed multi-core architecture enabling simultaneous testing of multiple key candidates in parallel</li>
+              <li>Optimized hardware for maximum throughput by efficiently pipelining RC4 pipeline stages across FPGA resources</li>
+              <li>Achieved significant performance gains over software implementations through hardware parallelization</li>
+              <li>Created control logic for managing multiple RC4 cores and data flow synchronization</li>
+              <li>Validated implementation through hardware testing and performance analysis</li>
+            </ul>
+          </div>
+          <div class="col-md-6 pl-md-5">
+            <p><strong>Technical Implementation:</strong></p>
+            <p>The design employs multiple independent RC4 cores operating in parallel, each performing the complete cipher computation on different key candidates. This architecture leverages the massive parallelism available on FPGAs to achieve throughputs impossible with sequential software. The key scheduling algorithm initializes the RC4 state arrays, while the PRGA stage generates pseudo-random output for keystream comparison.</p>
+            <p>This project demonstrates deep expertise in cryptographic hardware design, parallel processing architectures, resource optimization for spatial computing, and security engineering. The parallel RC4 implementation showcases the capability to map compute-intensive algorithms to hardware for significant performance acceleration.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
