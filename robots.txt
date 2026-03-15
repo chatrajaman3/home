@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /Documentation Files/
+Disallow: /textbooks.html
+Disallow: /textbooks/
 
 Sitemap: https://chatrajaman3.github.io/home/sitemap.xml
