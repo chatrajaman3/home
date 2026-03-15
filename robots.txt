@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /Documentation Files/
 
-Sitemap: https://chatrajaman3.github.io/sitemap.xml
+Sitemap: https://chatrajaman3.github.io/home/sitemap.xml
