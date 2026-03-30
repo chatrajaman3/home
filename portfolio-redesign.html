@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chathil Rajamanthree — ASIC & ECE Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=IBM+Plex+Mono:wght@300;400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════
+       DESIGN SYSTEM — Silicon Foundry
+       Aesthetic: clean room · deep space · die photography
+    ═══════════════════════════════════════════ */
+    :root {
+      --bg-deep:      #010b17;
+      --bg-surface:   #05131f;
+      --bg-card:      #081a2c;
+      --bg-card-hover:#0d2540;
+      --border:       rgba(6, 182, 212, 0.12);
+      --border-active:rgba(6, 182, 212, 0.45);
+      --accent-blue:  #0284c7;
+      --accent-cyan:  #06b6d4;
+      --accent-phosphor: #00ffa3;
+      --accent-gold:  #f59e0b;
+      --accent-red:   #ef4444;
+      --text-primary: #dff3fc;
+      --text-muted:   #4d7d9a;
+      --text-label:   #1a6e8a;
+      --trace:        #0c2e42;
+      --glow-blue:    0 0 20px rgba(6,182,212,0.3), 0 0 60px rgba(6,182,212,0.1);
+      --glow-phosphor:0 0 20px rgba(0,255,163,0.4);
+      --font-display: 'Orbitron', monospace;
+      --font-mono:    'IBM Plex Mono', monospace;
+      --font-body:    'Sora', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 8px; height: 8px;
+      background: var(--accent-cyan);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.05s, width 0.2s, height 0.2s, background 0.2s;
+      box-shadow: var(--glow-blue);
+    }
+    .cursor-ring {
+      width: 28px; height: 28px;
+      border: 1px solid rgba(6,182,212,0.5);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s, width 0.3s, height 0.3s;
+    }
+
+    /* ─── HEX GRID BACKGROUND ─── */
+    .hex-bg {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34z' fill='none' stroke='%230c2e42' stroke-width='0.8'/%3E%3Cpath d='M28 100L0 84V50l28-16 28 16v34z' fill='none' stroke='%230c2e42' stroke-width='0.8'/%3E%3C/svg%3E");
+      opacity: 0.6;
+    }
+
+    /* Scanline overlay */
+    .scanlines {
+      position: fixed; inset: 0; z-index: 1;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.05) 2px,
+        rgba(0,0,0,0.05) 4px
+      );
+    }
+
+    /* Ambient glow orbs */
+    .ambient {
+      position: fixed; z-index: 0; pointer-events: none;
+      border-radius: 50%; filter: blur(120px); opacity: 0.08;
+    }
+    .ambient-1 { width: 600px; height: 600px; background: #0284c7; top: -100px; left: -100px; animation: drift1 25s ease-in-out infinite; }
+    .ambient-2 { width: 500px; height: 500px; background: #06b6d4; bottom: 10%; right: -100px; animation: drift2 30s ease-in-out infinite; }
+    .ambient-3 { width: 300px; height: 300px; background: #00ffa3; top: 50%; left: 40%; animation: drift3 20s ease-in-out infinite; opacity: 0.04; }
+
+    @keyframes drift1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(60px,40px)} }
+    @keyframes drift2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-50px,30px)} }
+    @keyframes drift3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-40px)} }
+
+    /* ─── LAYOUT ─── */
+    main { position: relative; z-index: 2; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(1, 11, 23, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      height: 1px; width: 0;
+      background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+      animation: nav-scan 4s ease-in-out infinite;
+    }
+    @keyframes nav-scan {
+      0%   { left: 0;    width: 0; }
+      50%  { left: 0;    width: 100%; }
+      100% { left: 100%; width: 0; }
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--text-primary);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .nav-logo .chip-icon {
+      width: 28px; height: 28px;
+      border: 1.5px solid var(--accent-cyan);
+      display: grid; place-items: center;
+      position: relative;
+    }
+    .nav-logo .chip-icon::before, .nav-logo .chip-icon::after {
+      content: '';
+      position: absolute;
+      background: var(--accent-cyan);
+      opacity: 0.7;
+    }
+    .nav-logo .chip-icon::before { width: 8px; height: 8px; }
+    .nav-logo .chip-icon::after {
+      width: 14px; height: 1px; top: 50%;
+      box-shadow: 0 -5px 0 var(--accent-cyan), 0 5px 0 var(--accent-cyan);
+    }
+
+    .nav-links {
+      display: flex; gap: 36px; list-style: none;
+      align-items: center;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.2s;
+    }
+    .nav-links a::before {
+      content: attr(data-num);
+      font-size: 9px; color: var(--accent-cyan);
+      margin-right: 6px; opacity: 0.6;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent-cyan);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      text-decoration: none;
+      position: relative; overflow: hidden;
+      transition: color 0.3s;
+    }
+    .nav-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--accent-cyan);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s;
+      z-index: -1;
+    }
+    .nav-cta:hover { color: var(--bg-deep); }
+    .nav-cta:hover::before { transform: scaleX(1); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 80px 80px;
+      gap: 60px;
+      position: relative;
+    }
+
+    .hero-content { position: relative; }
+    .hero-status {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-phosphor);
+      margin-bottom: 28px;
+      padding: 6px 14px;
+      border: 1px solid rgba(0,255,163,0.2);
+      background: rgba(0,255,163,0.04);
+    }
+    .hero-status .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent-phosphor);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,255,163,0.4); }
+      50%      { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0,255,163,0); }
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #dff3fc 0%, #06b6d4 50%, #0284c7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-name .last { display: block; }
+
+    .hero-title {
+      font-family: var(--font-mono);
+      font-size: 13px; letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-title::before {
+      content: '';
+      width: 32px; height: 1px;
+      background: var(--accent-cyan);
+      flex-shrink: 0;
+    }
+
+    .hero-desc {
+      font-size: 15px; line-height: 1.8;
+      color: rgba(223,243,252,0.65);
+      max-width: 480px;
+      margin-bottom: 48px;
+    }
+
+    .hero-actions {
+      display: flex; gap: 16px; align-items: center;
+    }
+    .btn-primary {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      background: var(--accent-blue);
+      color: #fff;
+      text-decoration: none; border: none; cursor: pointer;
+      position: relative; overflow: hidden;
+      clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .btn-primary:hover {
+      background: var(--accent-cyan);
+      box-shadow: var(--glow-blue);
+    }
+    .btn-ghost {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 13px 28px;
+      background: transparent;
+      border: 1px solid var(--border-active);
+      color: var(--accent-cyan);
+      text-decoration: none; cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .btn-ghost:hover {
+      background: rgba(6,182,212,0.06);
+      border-color: var(--accent-cyan);
+    }
+
+    .hero-stats {
+      display: flex; gap: 40px;
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+    .stat-item { }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 28px; font-weight: 700;
+      color: var(--accent-cyan);
+      display: block;
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ─── CIRCUIT BOARD SVG HERO VISUAL ─── */
+    .hero-visual {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .chip-container {
+      position: relative;
+      width: 380px; height: 380px;
+    }
+    .chip-svg { width: 100%; height: 100%; }
+
+    /* ─── SECTION COMMON ─── */
+    section { padding: 100px 80px; position: relative; }
+    .section-header { margin-bottom: 64px; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before {
+      content: '';
+      width: 24px; height: 1px; background: var(--accent-cyan);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3vw, 36px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .section-title .accent { color: var(--accent-cyan); }
+
+    /* ─── PROJECTS GRID ─── */
+    #projects { background: rgba(5,19,31,0.4); }
+
+    .filter-bar {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      background: rgba(6,182,212,0.06);
+    }
+    .filter-btn.active {
+      background: rgba(6,182,212,0.1);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+      transform: scaleX(0);
+      transition: transform 0.4s;
+    }
+    .project-card:hover { background: var(--bg-card-hover); }
+    .project-card:hover::before { transform: scaleX(1); }
+
+    .project-card::after {
+      content: '';
+      position: absolute; bottom: -40px; right: -40px;
+      width: 120px; height: 120px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      transition: transform 0.4s, opacity 0.4s;
+      opacity: 0;
+    }
+    .project-card:hover::after {
+      transform: translate(-20px, -20px);
+      opacity: 1;
+    }
+
+    .project-tag {
+      font-family: var(--font-mono);
+      font-size: 9px; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-phosphor);
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .project-tag::before {
+      content: '';
+      width: 16px; height: 1px; background: var(--accent-phosphor);
+    }
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 14px; font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .project-desc {
+      font-size: 13px; line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .project-tools {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .tool-chip {
+      font-family: var(--font-mono);
+      font-size: 9px; letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      color: var(--text-label);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .project-card:hover .tool-chip {
+      border-color: rgba(6,182,212,0.3);
+      color: var(--text-muted);
+    }
+
+    .project-num {
+      position: absolute; top: 28px; right: 28px;
+      font-family: var(--font-display);
+      font-size: 48px; font-weight: 900;
+      color: rgba(6,182,212,0.04);
+      line-height: 1; user-select: none;
+      transition: color 0.3s;
+    }
+    .project-card:hover .project-num { color: rgba(6,182,212,0.08); }
+
+    /* ─── EXPERIENCE TIMELINE ─── */
+    #experience { }
+
+    .timeline {
+      position: relative;
+      padding-left: 40px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent-cyan), var(--border), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 56px;
+      padding-left: 40px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute; left: -44px; top: 6px;
+      width: 9px; height: 9px;
+      border: 1.5px solid var(--accent-cyan);
+      background: var(--bg-deep);
+      transform: rotate(45deg);
+    }
+    .timeline-item::after {
+      content: '';
+      position: absolute; left: -39px; top: 14px;
+      width: 39px; height: 1px;
+      background: linear-gradient(90deg, var(--accent-cyan), transparent);
+    }
+
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 8px;
+    }
+    .timeline-company {
+      font-family: var(--font-display);
+      font-size: 16px; font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .timeline-role {
+      font-family: var(--font-mono);
+      font-size: 12px; color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .timeline-desc {
+      font-size: 14px; line-height: 1.8;
+      color: rgba(223,243,252,0.6);
+      max-width: 580px;
+    }
+    .timeline-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      font-size: 9px; letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border: 1px solid rgba(245,158,11,0.3);
+      color: var(--accent-gold);
+      background: rgba(245,158,11,0.05);
+    }
+    .timeline-badge.incoming { animation: badge-glow 3s ease-in-out infinite; }
+    @keyframes badge-glow {
+      0%,100% { box-shadow: none; }
+      50%      { box-shadow: 0 0 12px rgba(245,158,11,0.2); }
+    }
+
+    /* ─── SKILLS (SUGGESTED ADDITION) ─── */
+    #skills {
+      background: rgba(5,19,31,0.4);
+    }
+    .skills-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .skill-group { margin-bottom: 40px; }
+    .skill-group-label {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .skill-bar-item { margin-bottom: 16px; }
+    .skill-bar-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px;
+    }
+    .skill-name {
+      font-family: var(--font-mono);
+      font-size: 12px; color: var(--text-primary);
+    }
+    .skill-pct {
+      font-family: var(--font-mono);
+      font-size: 10px; color: var(--accent-cyan);
+    }
+    .skill-track {
+      height: 3px;
+      background: var(--border);
+      position: relative; overflow: hidden;
+    }
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+      position: relative;
+      animation: fill-bar 1.5s cubic-bezier(0.22,1,0.36,1) both;
+      animation-play-state: paused;
+    }
+    .skill-fill.visible { animation-play-state: running; }
+    .skill-fill::after {
+      content: '';
+      position: absolute; right: 0; top: -3px;
+      width: 2px; height: 9px;
+      background: var(--accent-cyan);
+      box-shadow: var(--glow-blue);
+    }
+    @keyframes fill-bar {
+      from { width: 0 !important; }
+    }
+
+    /* Radar / spider chart canvas area */
+    .radar-wrap {
+      position: relative;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .radar-title {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 24px;
+      align-self: flex-start;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+    }
+    #radarCanvas { display: block; }
+
+    /* ─── COURSES ─── */
+    #courses { }
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+    .course-card {
+      background: var(--bg-card);
+      padding: 28px;
+      position: relative;
+      transition: background 0.3s;
+    }
+    .course-card:hover { background: var(--bg-card-hover); }
+    .course-code {
+      font-family: var(--font-display);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--accent-cyan);
+      margin-bottom: 10px;
+    }
+    .course-name {
+      font-family: var(--font-body);
+      font-size: 14px; font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .course-desc {
+      font-size: 12px; line-height: 1.7;
+      color: var(--text-muted);
+    }
+    .course-grade {
+      position: absolute; top: 24px; right: 24px;
+      font-family: var(--font-display);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 4px 10px;
+      background: rgba(0,255,163,0.06);
+      border: 1px solid rgba(0,255,163,0.2);
+      color: var(--accent-phosphor);
+    }
+
+    /* ─── SUGGESTED ADDITIONS (callout section) ─── */
+    #suggestions {
+      background: rgba(5,19,31,0.4);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .suggestions-intro {
+      font-family: var(--font-mono);
+      font-size: 12px; line-height: 1.8;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-bottom: 48px;
+    }
+    .suggestions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .suggestion-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 28px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .suggestion-card:hover {
+      border-color: var(--border-active);
+      background: var(--bg-card-hover);
+    }
+    .suggestion-card .s-num {
+      font-family: var(--font-display);
+      font-size: 11px; font-weight: 700;
+      color: var(--accent-cyan);
+      letter-spacing: 0.15em;
+      margin-bottom: 12px;
+    }
+    .suggestion-card h4 {
+      font-family: var(--font-display);
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+    .suggestion-card p {
+      font-size: 13px; line-height: 1.7;
+      color: var(--text-muted);
+    }
+    .suggestion-card .s-accent {
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%;
+    }
+    .s-accent-blue  { background: var(--accent-blue); }
+    .s-accent-cyan  { background: var(--accent-cyan); }
+    .s-accent-green { background: var(--accent-phosphor); }
+    .s-accent-gold  { background: var(--accent-gold); }
+
+    /* ─── CONTACT (SUGGESTED ADDITION) ─── */
+    #contact { }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-info h3 {
+      font-family: var(--font-display);
+      font-size: 20px; font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+    .contact-info p {
+      font-size: 14px; line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 16px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px; letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      transition: all 0.3s;
+    }
+    .contact-link:hover {
+      border-color: var(--border-active);
+      color: var(--text-primary);
+      background: var(--bg-card-hover);
+    }
+    .contact-link .cl-icon {
+      width: 20px; height: 20px;
+      color: var(--accent-cyan);
+      flex-shrink: 0;
+    }
+
+    .contact-form { }
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      resize: none;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px rgba(6,182,212,0.08);
+    }
+    .form-textarea { height: 120px; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 40px 80px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+    .footer-text span { color: var(--accent-cyan); }
+
+    /* ─── WAVEFORM ─── */
+    .waveform-bar {
+      display: flex; align-items: flex-end; gap: 2px; height: 32px;
+    }
+    .wave-line {
+      width: 2px; background: var(--accent-cyan); opacity: 0.4;
+      animation: wave-anim 1.4s ease-in-out infinite;
+    }
+    .wave-line:nth-child(1)  { animation-delay: 0s;    height: 30%; }
+    .wave-line:nth-child(2)  { animation-delay: 0.1s;  height: 60%; }
+    .wave-line:nth-child(3)  { animation-delay: 0.2s;  height: 100%; }
+    .wave-line:nth-child(4)  { animation-delay: 0.3s;  height: 70%; }
+    .wave-line:nth-child(5)  { animation-delay: 0.4s;  height: 45%; }
+    .wave-line:nth-child(6)  { animation-delay: 0.5s;  height: 80%; }
+    .wave-line:nth-child(7)  { animation-delay: 0.6s;  height: 55%; }
+    .wave-line:nth-child(8)  { animation-delay: 0.7s;  height: 90%; }
+    .wave-line:nth-child(9)  { animation-delay: 0.8s;  height: 40%; }
+    .wave-line:nth-child(10) { animation-delay: 0.9s;  height: 65%; }
+    .wave-line:nth-child(11) { animation-delay: 1.0s;  height: 30%; }
+    .wave-line:nth-child(12) { animation-delay: 1.1s;  height: 50%; }
+    @keyframes wave-anim {
+      0%,100% { transform: scaleY(1); opacity: 0.4; }
+      50%      { transform: scaleY(0.3); opacity: 0.15; }
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      #hero { grid-template-columns: 1fr; padding: 120px 40px 60px; }
+      .hero-visual { display: none; }
+      section { padding: 80px 40px; }
+      .projects-grid, .courses-grid { grid-template-columns: 1fr 1fr; }
+      .skills-layout, .contact-layout, .suggestions-grid { grid-template-columns: 1fr; gap: 48px; }
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 640px) {
+      .projects-grid, .courses-grid { grid-template-columns: 1fr; }
+      section { padding: 60px 24px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Background layers -->
+<div class="hex-bg"></div>
+<div class="scanlines"></div>
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+<div class="ambient ambient-3"></div>
+
+<main>
+  <!-- ═══ NAV ═══ -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="chip-icon"></div>
+      CR
+    </a>
+    <ul class="nav-links">
+      <li><a href="#projects" data-num="01">Projects</a></li>
+      <li><a href="#experience" data-num="02">Experience</a></li>
+      <li><a href="#skills" data-num="03">Skills</a></li>
+      <li><a href="#courses" data-num="04">Courses</a></li>
+      <li><a href="#contact" data-num="05">Contact</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Resume ↗</a>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section id="hero">
+    <div class="hero-content">
+      <div class="hero-status reveal">
+        <span class="dot"></span>
+        Available · Intel ASIC Intern · UBC ECE
+      </div>
+      <h1 class="hero-name reveal reveal-delay-1">
+        Chathil
+        <span class="last">Rajamanthree</span>
+      </h1>
+      <p class="hero-title reveal reveal-delay-2">
+        Electrical &amp; Computer Engineering · UBC
+      </p>
+      <p class="hero-desc reveal reveal-delay-3">
+        Specializing in analog IC design, FPGA architecture, and ASIC verification.
+        Building at the intersection of silicon and system design — from transistor-level
+        schematics to RTL and beyond.
+      </p>
+      <div class="hero-actions reveal reveal-delay-4">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact" class="btn-ghost">Get in Touch</a>
+      </div>
+      <div class="hero-stats reveal reveal-delay-4">
+        <div class="stat-item">
+          <span class="stat-num">7+</span>
+          <span class="stat-label">VLSI Projects</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">2</span>
+          <span class="stat-label">Companies</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">8</span>
+          <span class="stat-label">EE Courses</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated Chip SVG -->
+    <div class="hero-visual reveal reveal-delay-2">
+      <div class="chip-container">
+        <svg class="chip-svg" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="glow-filter">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            </filter>
+            <filter id="glow-strong">
+              <feGaussianBlur stdDeviation="5" result="blur"/>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            </filter>
+          </defs>
+
+          <!-- Outer ring -->
+          <rect x="10" y="10" width="360" height="360" stroke="#0c2e42" stroke-width="1" fill="none"/>
+          <rect x="20" y="20" width="340" height="340" stroke="#0c2e42" stroke-width="0.5" fill="none"/>
+
+          <!-- Corner markers -->
+          <path d="M10 50 L10 10 L50 10" stroke="#06b6d4" stroke-width="1.5" fill="none" filter="url(#glow-filter)"/>
+          <path d="M330 10 L370 10 L370 50" stroke="#06b6d4" stroke-width="1.5" fill="none" filter="url(#glow-filter)"/>
+          <path d="M10 330 L10 370 L50 370" stroke="#06b6d4" stroke-width="1.5" fill="none" filter="url(#glow-filter)"/>
+          <path d="M370 330 L370 370 L330 370" stroke="#06b6d4" stroke-width="1.5" fill="none" filter="url(#glow-filter)"/>
+
+          <!-- PCB trace grid -->
+          <g stroke="#0c2e42" stroke-width="0.5" opacity="0.8">
+            <line x1="60" y1="20" x2="60" y2="360"/>
+            <line x1="110" y1="20" x2="110" y2="360"/>
+            <line x1="160" y1="20" x2="160" y2="360"/>
+            <line x1="210" y1="20" x2="210" y2="360"/>
+            <line x1="260" y1="20" x2="260" y2="360"/>
+            <line x1="310" y1="20" x2="310" y2="360"/>
+            <line x1="20" y1="60" x2="360" y2="60"/>
+            <line x1="20" y1="110" x2="360" y2="110"/>
+            <line x1="20" y1="160" x2="360" y2="160"/>
+            <line x1="20" y1="210" x2="360" y2="210"/>
+            <line x1="20" y1="260" x2="360" y2="260"/>
+            <line x1="20" y1="310" x2="360" y2="310"/>
+          </g>
+
+          <!-- Signal traces - animated -->
+          <g class="traces" stroke="#0284c7" stroke-width="1.2" fill="none" opacity="0.6">
+            <path d="M10 90 L60 90 L60 60 L110 60" stroke-dasharray="200" stroke-dashoffset="200">
+              <animate attributeName="stroke-dashoffset" from="200" to="0" dur="2s" begin="0.5s" fill="freeze"/>
+            </path>
+            <path d="M370 160 L310 160 L310 110 L260 110" stroke-dasharray="200" stroke-dashoffset="200">
+              <animate attributeName="stroke-dashoffset" from="200" to="0" dur="2s" begin="1s" fill="freeze"/>
+            </path>
+            <path d="M10 260 L60 260 L60 310 L110 310" stroke-dasharray="200" stroke-dashoffset="200">
+              <animate attributeName="stroke-dashoffset" from="200" to="0" dur="2s" begin="1.5s" fill="freeze"/>
+            </path>
+            <path d="M370 260 L310 260 L310 310 L260 310" stroke-dasharray="200" stroke-dashoffset="200">
+              <animate attributeName="stroke-dashoffset" from="200" to="0" dur="2s" begin="2s" fill="freeze"/>
+            </path>
+          </g>
+
+          <!-- Phosphor traces - faster signals -->
+          <g stroke="#00ffa3" stroke-width="0.8" fill="none" opacity="0.4">
+            <path d="M160 10 L160 60 L210 60 L210 10" stroke-dasharray="150" stroke-dashoffset="150">
+              <animate attributeName="stroke-dashoffset" from="150" to="0" dur="1.5s" begin="0.3s" fill="freeze"/>
+            </path>
+            <path d="M160 370 L160 310 L210 310 L210 370" stroke-dasharray="150" stroke-dashoffset="150">
+              <animate attributeName="stroke-dashoffset" from="150" to="0" dur="1.5s" begin="0.8s" fill="freeze"/>
+            </path>
+          </g>
+
+          <!-- Main chip die -->
+          <rect x="110" y="110" width="160" height="160" fill="#071428" stroke="#1a4d6b" stroke-width="1"/>
+          <rect x="120" y="120" width="140" height="140" fill="#081a2c" stroke="#0c2e42" stroke-width="0.5"/>
+
+          <!-- Internal die structure -->
+          <g stroke="#0c2e42" stroke-width="0.5" opacity="0.9">
+            <rect x="130" y="130" width="40" height="40" fill="#0a1e35"/>
+            <rect x="180" y="130" width="40" height="40" fill="#0a1e35"/>
+            <rect x="130" y="180" width="40" height="40" fill="#0a1e35"/>
+            <rect x="180" y="180" width="40" height="40" fill="#0a1e35"/>
+          </g>
+
+          <!-- Die labels -->
+          <text x="150" y="155" text-anchor="middle" font-family="'IBM Plex Mono'" font-size="6" fill="#1a6e8a">AMP</text>
+          <text x="200" y="155" text-anchor="middle" font-family="'IBM Plex Mono'" font-size="6" fill="#1a6e8a">CLK</text>
+          <text x="150" y="205" text-anchor="middle" font-family="'IBM Plex Mono'" font-size="6" fill="#1a6e8a">MEM</text>
+          <text x="200" y="205" text-anchor="middle" font-family="'IBM Plex Mono'" font-size="6" fill="#1a6e8a">I/O</text>
+
+          <!-- Bond pads - top -->
+          <g fill="#06b6d4" opacity="0.7">
+            <rect x="130" y="112" width="8" height="4"/>
+            <rect x="145" y="112" width="8" height="4"/>
+            <rect x="160" y="112" width="8" height="4"/>
+            <rect x="175" y="112" width="8" height="4"/>
+            <rect x="190" y="112" width="8" height="4"/>
+            <rect x="205" y="112" width="8" height="4"/>
+            <rect x="220" y="112" width="8" height="4"/>
+          </g>
+          <!-- Bond pads - bottom -->
+          <g fill="#06b6d4" opacity="0.7">
+            <rect x="130" y="264" width="8" height="4"/>
+            <rect x="145" y="264" width="8" height="4"/>
+            <rect x="160" y="264" width="8" height="4"/>
+            <rect x="175" y="264" width="8" height="4"/>
+            <rect x="190" y="264" width="8" height="4"/>
+            <rect x="205" y="264" width="8" height="4"/>
+            <rect x="220" y="264" width="8" height="4"/>
+          </g>
+          <!-- Bond pads - left -->
+          <g fill="#0284c7" opacity="0.7">
+            <rect x="112" y="130" width="4" height="8"/>
+            <rect x="112" y="148" width="4" height="8"/>
+            <rect x="112" y="166" width="4" height="8"/>
+            <rect x="112" y="184" width="4" height="8"/>
+            <rect x="112" y="202" width="4" height="8"/>
+            <rect x="112" y="220" width="4" height="8"/>
+            <rect x="112" y="238" width="4" height="8"/>
+          </g>
+          <!-- Bond pads - right -->
+          <g fill="#0284c7" opacity="0.7">
+            <rect x="264" y="130" width="4" height="8"/>
+            <rect x="264" y="148" width="4" height="8"/>
+            <rect x="264" y="166" width="4" height="8"/>
+            <rect x="264" y="184" width="4" height="8"/>
+            <rect x="264" y="202" width="4" height="8"/>
+            <rect x="264" y="220" width="4" height="8"/>
+            <rect x="264" y="238" width="4" height="8"/>
+          </g>
+
+          <!-- Center cross-hatch -->
+          <line x1="110" y1="190" x2="270" y2="190" stroke="#1a4d6b" stroke-width="0.5"/>
+          <line x1="190" y1="110" x2="190" y2="270" stroke="#1a4d6b" stroke-width="0.5"/>
+
+          <!-- Pulsing center node -->
+          <circle cx="190" cy="190" r="4" fill="#06b6d4" filter="url(#glow-strong)">
+            <animate attributeName="r" values="4;7;4" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="1;0.4;1" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="190" cy="190" r="14" fill="none" stroke="#06b6d4" stroke-width="0.5" opacity="0.2">
+            <animate attributeName="r" values="14;24;14" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.2;0;0.2" dur="3s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- Corner node dots -->
+          <circle cx="60" cy="60" r="3" fill="#0284c7" opacity="0.6">
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="310" cy="60" r="3" fill="#0284c7" opacity="0.6">
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="1s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="60" cy="310" r="3" fill="#0284c7" opacity="0.6">
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="310" cy="310" r="3" fill="#0284c7" opacity="0.6">
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="0.2s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- Chip label -->
+          <text x="190" y="340" text-anchor="middle" font-family="'Orbitron'" font-size="8" fill="#1a6e8a" letter-spacing="3">CR-ECE-2025</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PROJECTS ═══ -->
+  <section id="projects">
+    <div class="section-header">
+      <p class="section-label reveal">Projects</p>
+      <h2 class="section-title reveal reveal-delay-1">Silicon &amp; <span class="accent">System Design</span></h2>
+    </div>
+    <div class="filter-bar reveal reveal-delay-2">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Analog IC</button>
+      <button class="filter-btn">FPGA</button>
+      <button class="filter-btn">Embedded</button>
+      <button class="filter-btn">ASIC/RTL</button>
+    </div>
+    <div class="projects-grid reveal reveal-delay-3">
+
+      <div class="project-card">
+        <span class="project-num">01</span>
+        <div class="project-tag">ELEC 401 · Analog IC</div>
+        <h3 class="project-title">2-Stage CMOS Op-Amp</h3>
+        <p class="project-desc">Full custom differential amplifier with 60dB gain and 70° phase margin. Designed, simulated, and verified in Cadence Virtuoso using TSMC 180nm process.</p>
+        <div class="project-tools">
+          <span class="tool-chip">Cadence Virtuoso</span>
+          <span class="tool-chip">Spectre</span>
+          <span class="tool-chip">TSMC 180nm</span>
+          <span class="tool-chip">MATLAB</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-num">02</span>
+        <div class="project-tag">CPEN 311 · FPGA</div>
+        <h3 class="project-title">FPGA iPod — DE1-SoC</h3>
+        <p class="project-desc">Full audio player on Cyclone V FPGA featuring a custom-designed CPU, DAC interface, and SD card filesystem — written in SystemVerilog and ARM assembly.</p>
+        <div class="project-tools">
+          <span class="tool-chip">SystemVerilog</span>
+          <span class="tool-chip">ARM Assembly</span>
+          <span class="tool-chip">Quartus</span>
+          <span class="tool-chip">DE1-SoC</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-num">03</span>
+        <div class="project-tag">CPEN 311 · RTL/ASIC</div>
+        <h3 class="project-title">Multi-Core RC4 Cracker</h3>
+        <p class="project-desc">Parallel cracking circuit with 8 independent processing cores on FPGA. Implemented key-scheduling and PRGA algorithms in VHDL with pipelined memory access.</p>
+        <div class="project-tools">
+          <span class="tool-chip">VHDL</span>
+          <span class="tool-chip">SystemVerilog</span>
+          <span class="tool-chip">ModelSim</span>
+          <span class="tool-chip">Quartus</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-num">04</span>
+        <div class="project-tag">CPEN 311 · Embedded</div>
+        <h3 class="project-title">FPGA DSP Pipeline</h3>
+        <p class="project-desc">Real-time digital signal processing pipeline using Qsys (Platform Designer) with NIOS II soft processor, implementing FIR filters and FFT in embedded C.</p>
+        <div class="project-tools">
+          <span class="tool-chip">Qsys</span>
+          <span class="tool-chip">Embedded C</span>
+          <span class="tool-chip">NIOS II</span>
+          <span class="tool-chip">Quartus</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-num">05</span>
+        <div class="project-tag">ELEC 291 · Embedded</div>
+        <h3 class="project-title">Reflow Oven Controller</h3>
+        <p class="project-desc">Closed-loop PID temperature controller for PCB solder reflow. EFM8LB1 microcontroller running 8051 assembly with Python GUI for real-time telemetry visualization.</p>
+        <div class="project-tools">
+          <span class="tool-chip">8051 Assembly</span>
+          <span class="tool-chip">PWM</span>
+          <span class="tool-chip">Python</span>
+          <span class="tool-chip">PID Control</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-num">06</span>
+        <div class="project-tag">CPEN 211 · RTL</div>
+        <h3 class="project-title">RISC-V Pipelined CPU</h3>
+        <p class="project-desc">5-stage pipelined RISC machine with hazard detection, data forwarding, and branch prediction. Synthesized and verified on Cyclone V FPGA using ModelSim testbenches.</p>
+        <div class="project-tools">
+          <span class="tool-chip">SystemVerilog</span>
+          <span class="tool-chip">ModelSim</span>
+          <span class="tool-chip">Quartus</span>
+          <span class="tool-chip">RTL</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ EXPERIENCE ═══ -->
+  <section id="experience">
+    <div class="section-header">
+      <p class="section-label reveal">Experience</p>
+      <h2 class="section-title reveal reveal-delay-1">Where I've <span class="accent">Contributed</span></h2>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">Summer 2025</div>
+        <div class="timeline-company">Intel Corporation</div>
+        <div class="timeline-role">ASIC Design Verification Engineering Intern</div>
+        <p class="timeline-desc">
+          Joining Intel's Design Verification team to work on pre-silicon validation of
+          ASIC and SoC components. Focus on UVM-based testbench development, functional
+          coverage closure, and formal verification methodologies.
+        </p>
+        <span class="timeline-badge incoming">
+          <span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;animation:pulse-dot 2s infinite;"></span>
+          Incoming
+        </span>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-date">Jan 2025 – Apr 2025 · Sep 2024 – Dec 2024</div>
+        <div class="timeline-company">UBC — APSC 160</div>
+        <div class="timeline-role">Teaching Assistant, 24W2 &amp; 25W2</div>
+        <p class="timeline-desc">
+          Led lab sections and office hours for APSC 160 (Introduction to Computation in Engineering).
+          Supported 100+ students in C programming, debugging, and algorithm design for engineering applications.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ SKILLS (Suggested Addition) ═══ -->
+  <section id="skills">
+    <div class="section-header">
+      <p class="section-label reveal">Skills &amp; Tooling</p>
+      <h2 class="section-title reveal reveal-delay-1">Proficiency <span class="accent">Snapshot</span></h2>
+    </div>
+    <div class="skills-layout">
+
+      <div class="reveal">
+        <div class="skill-group">
+          <div class="skill-group-label">EDA / Simulation</div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-name">Cadence Virtuoso</span>
+              <span class="skill-pct">88%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill" style="width:88%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-name">Quartus Prime / ModelSim</span>
+              <span class="skill-pct">92%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill" style="width:92%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-name">Spectre / SPICE</span>
+              <span class="skill-pct">80%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill" style="width:80%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-name">MATLAB / Simulink</span>
+              <span class="skill-pct">75%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill" style="width:75%"></div></div>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">HDL / Programming</div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-name">SystemVerilog / VHDL</span>
+              <span class="skill-pct">90%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill" style="width:90%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-name">C / Embedded C</span>
+              <span class="skill-pct">85%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill" style="width:85%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-name">Python</span>
+              <span class="skill-pct">82%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill" style="width:82%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-name">Assembly (ARM / 8051)</span>
+              <span class="skill-pct">72%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill" style="width:72%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="radar-wrap reveal reveal-delay-2">
+        <div class="radar-title">Domain Expertise Radar</div>
+        <canvas id="radarCanvas" width="320" height="320"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ COURSES ═══ -->
+  <section id="courses">
+    <div class="section-header">
+      <p class="section-label reveal">Academic</p>
+      <h2 class="section-title reveal reveal-delay-1">Relevant <span class="accent">Coursework</span></h2>
+    </div>
+    <div class="courses-grid reveal reveal-delay-2">
+
+      <div class="course-card">
+        <span class="course-grade">A+</span>
+        <div class="course-code">ELEC 401/501</div>
+        <div class="course-name">Analog CMOS IC Design</div>
+        <p class="course-desc">Transistor-level design of amplifiers, bias circuits, OTAs. Full custom layout and DRC/LVS verification on 180nm process.</p>
+      </div>
+
+      <div class="course-card">
+        <div class="course-code">CPEN 311</div>
+        <div class="course-name">Digital Systems Design</div>
+        <p class="course-desc">RTL design, synthesis, timing closure. FPGA implementation of complex digital systems including CPUs and cryptographic circuits.</p>
+      </div>
+
+      <div class="course-card">
+        <div class="course-code">ELEC 301</div>
+        <div class="course-name">Electronic Circuits</div>
+        <p class="course-desc">Frequency response, feedback theory, stability analysis. BJT and MOSFET amplifier design with Bode plot verification.</p>
+      </div>
+
+      <div class="course-card">
+        <div class="course-code">ELEC 221</div>
+        <div class="course-name">Signals &amp; Systems</div>
+        <p class="course-desc">Fourier analysis, Z-transforms, LTI systems, sampling theory. Foundation for DSP and signal integrity analysis.</p>
+      </div>
+
+      <div class="course-card">
+        <div class="course-code">CPEN 211</div>
+        <div class="course-name">Computing Systems I</div>
+        <p class="course-desc">ISA design, pipelined CPU architecture, cache hierarchy, and memory systems. RTL implementation of RISC machine in SystemVerilog.</p>
+      </div>
+
+      <div class="course-card">
+        <div class="course-code">ELEC 202</div>
+        <div class="course-name">Circuit Analysis II</div>
+        <p class="course-desc">AC steady-state analysis, power, resonance, two-port networks, and introduction to active filter design.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ SUGGESTED ADDITIONS ═══ -->
+  <section id="suggestions">
+    <div class="section-header">
+      <p class="section-label reveal">Recommended Additions</p>
+      <h2 class="section-title reveal reveal-delay-1">Strengthen Your <span class="accent">Portfolio</span></h2>
+    </div>
+    <p class="suggestions-intro reveal reveal-delay-2">
+      // Based on industry standards for ASIC/semiconductor roles at companies like Intel, Qualcomm, AMD —
+      these additions would significantly increase recruiter engagement and signal depth of expertise.
+    </p>
+    <div class="suggestions-grid">
+
+      <div class="suggestion-card reveal">
+        <div class="s-accent s-accent-cyan"></div>
+        <div class="s-num">01 — HIGH PRIORITY</div>
+        <h4>Schematic & Layout Gallery</h4>
+        <p>Embed actual Cadence screenshots — your op-amp schematic, AC bode plots, layout with DRC markers. EE recruiters want to see real tool output, not just descriptions. A scrollable lightbox of simulation waveforms would set you apart instantly.</p>
+      </div>
+
+      <div class="suggestion-card reveal reveal-delay-1">
+        <div class="s-accent s-accent-blue"></div>
+        <div class="s-num">02 — HIGH PRIORITY</div>
+        <h4>Formal Education Timeline</h4>
+        <p>Add a dedicated timeline showing your degree progression, GPA trajectory, and relevant coursework sequence. Semiconductor companies care deeply about academic rigor. Include expected graduation date and relevant grad school plans if applicable.</p>
+      </div>
+
+      <div class="suggestion-card reveal reveal-delay-2">
+        <div class="s-accent s-accent-green"></div>
+        <div class="s-num">03 — RECOMMENDED</div>
+        <h4>Technical Blog / Lab Notes</h4>
+        <p>Your commented-out blog section is worth activating. Write short posts about interesting design decisions — why you chose 70° phase margin, how you debugged a timing closure issue. This demonstrates communication skills valued at senior IC levels.</p>
+      </div>
+
+      <div class="suggestion-card reveal reveal-delay-3">
+        <div class="s-accent s-accent-gold"></div>
+        <div class="s-num">04 — RECOMMENDED</div>
+        <h4>Oscilloscope / Waveform Demos</h4>
+        <p>Embed short video clips or animated GIFs of your actual lab measurements — the reflow oven PID response, FPGA logic analyzer captures. Real hardware demonstrations are far more compelling than rendered renders.</p>
+      </div>
+
+      <div class="suggestion-card reveal">
+        <div class="s-accent s-accent-cyan"></div>
+        <div class="s-num">05 — NICE TO HAVE</div>
+        <h4>Publications or Reports Section</h4>
+        <p>Link course design reports as PDFs. Even a well-formatted lab report for your op-amp design shows technical writing depth. If you publish a paper or preprint related to your Intel work, this section becomes critical.</p>
+      </div>
+
+      <div class="suggestion-card reveal reveal-delay-1">
+        <div class="s-accent s-accent-blue"></div>
+        <div class="s-num">06 — NICE TO HAVE</div>
+        <h4>Interactive Skill Radar</h4>
+        <p>A spider/radar chart comparing your EDA tools, HDL proficiency, and domain knowledge makes skill levels instantly scannable. Already designed above — integrate it into your main index.html. Recruiters spend 15 seconds on a portfolio page; make it count visually.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section id="contact">
+    <div class="section-header">
+      <p class="section-label reveal">Contact</p>
+      <h2 class="section-title reveal reveal-delay-1">Start a <span class="accent">Conversation</span></h2>
+    </div>
+    <div class="contact-layout">
+      <div class="contact-info reveal">
+        <h3>Let's build something at the silicon level.</h3>
+        <p>Open to research collaborations, full-time roles in ASIC/analog IC design, and interesting problems in signal integrity, verification, or chip architecture.</p>
+        <div class="contact-links">
+          <a href="#" class="contact-link">
+            <svg class="cl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+            linkedin.com/in/chathil-rajamanthree
+          </a>
+          <a href="#" class="contact-link">
+            <svg class="cl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            github.com/chathil-r
+          </a>
+          <a href="#" class="contact-link">
+            <svg class="cl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            chathil@ece.ubc.ca
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-form reveal reveal-delay-2">
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-input" placeholder="Your name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="What are you working on?"></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%; text-align:center; display:block; padding:16px; clip-path:none;">
+          Transmit Message →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-text">
+      © 2025 <span>Chathil Rajamanthree</span> · UBC ECE · Semiconductor Design
+    </div>
+    <div class="waveform-bar">
+      <div class="wave-line"></div><div class="wave-line"></div><div class="wave-line"></div>
+      <div class="wave-line"></div><div class="wave-line"></div><div class="wave-line"></div>
+      <div class="wave-line"></div><div class="wave-line"></div><div class="wave-line"></div>
+      <div class="wave-line"></div><div class="wave-line"></div><div class="wave-line"></div>
+    </div>
+    <div class="footer-text" style="font-size:10px; opacity:0.5;">
+      SIGNAL INTEGRITY · VLSI · ECE
+    </div>
+  </footer>
+</main>
+
+<script>
+  // ─── Custom cursor ───
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('a, button, .project-card, .course-card, .suggestion-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width  = '14px';
+      cursor.style.height = '14px';
+      cursor.style.background = '#00ffa3';
+      ring.style.width  = '48px';
+      ring.style.height = '48px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width  = '8px';
+      cursor.style.height = '8px';
+      cursor.style.background = '#06b6d4';
+      ring.style.width  = '28px';
+      ring.style.height = '28px';
+    });
+  });
+
+  // ─── Scroll reveal ───
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // trigger skill bars
+        e.target.querySelectorAll('.skill-fill').forEach(b => b.classList.add('visible'));
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Trigger hero reveals immediately
+  document.querySelectorAll('#hero .reveal').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), i * 120);
+  });
+
+  // ─── Skill bars in skills section ───
+  const skillsObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.skill-fill').forEach(b => b.classList.add('visible'));
+      }
+    });
+  }, { threshold: 0.2 });
+  const skillsSection = document.getElementById('skills');
+  if (skillsSection) skillsObserver.observe(skillsSection);
+
+  // ─── Portfolio filter ───
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // ─── Radar Chart ───
+  const canvas = document.getElementById('radarCanvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    const cx = 160, cy = 160, r = 120;
+    const labels = ['Analog IC', 'RTL/HDL', 'FPGA', 'Embedded', 'Verification', 'DSP/Math'];
+    const values = [0.88, 0.90, 0.92, 0.85, 0.75, 0.78];
+    const n = labels.length;
+    const angle = (i) => (Math.PI * 2 * i / n) - Math.PI / 2;
+
+    function drawRadar() {
+      ctx.clearRect(0, 0, 320, 320);
+
+      // Grid rings
+      for (let ring = 1; ring <= 4; ring++) {
+        ctx.beginPath();
+        for (let i = 0; i < n; i++) {
+          const a = angle(i);
+          const rr = r * ring / 4;
+          const x = cx + rr * Math.cos(a);
+          const y = cy + rr * Math.sin(a);
+          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = ring === 4 ? 'rgba(6,182,212,0.2)' : 'rgba(12,46,66,0.8)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Axes
+      for (let i = 0; i < n; i++) {
+        const a = angle(i);
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
+        ctx.strokeStyle = 'rgba(12,46,66,0.8)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        // Axis dot
+        ctx.beginPath();
+        ctx.arc(cx + r * Math.cos(a), cy + r * Math.sin(a), 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(6,182,212,0.4)';
+        ctx.fill();
+      }
+
+      // Data polygon
+      ctx.beginPath();
+      for (let i = 0; i < n; i++) {
+        const a = angle(i);
+        const rv = r * values[i];
+        const x = cx + rv * Math.cos(a);
+        const y = cy + rv * Math.sin(a);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(6,182,212,0.08)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(6,182,212,0.7)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Data points
+      for (let i = 0; i < n; i++) {
+        const a = angle(i);
+        const rv = r * values[i];
+        const x = cx + rv * Math.cos(a);
+        const y = cy + rv * Math.sin(a);
+        ctx.beginPath();
+        ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#06b6d4';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(6,182,212,0.3)';
+        ctx.lineWidth = 6;
+        ctx.stroke();
+      }
+
+      // Labels
+      ctx.font = "500 10px 'IBM Plex Mono'";
+      ctx.fillStyle = 'rgba(77,125,154,0.9)';
+      ctx.textAlign = 'center';
+      for (let i = 0; i < n; i++) {
+        const a = angle(i);
+        const dist = r + 22;
+        const x = cx + dist * Math.cos(a);
+        const y = cy + dist * Math.sin(a);
+        ctx.fillText(labels[i], x, y + 4);
+      }
+
+      // Center point
+      ctx.beginPath();
+      ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(6,182,212,0.5)';
+      ctx.fill();
+    }
+    drawRadar();
+  }
+
+  // ─── Nav hide on scroll ───
+  let lastY = 0;
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > lastY && y > 100) {
+      nav.style.transform = 'translateY(-100%)';
+      nav.style.transition = 'transform 0.3s';
+    } else {
+      nav.style.transform = 'translateY(0)';
+    }
+    lastY = y;
+  });
+</script>
+</body>
+</html>
