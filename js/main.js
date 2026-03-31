@@ -294,38 +294,46 @@ var floatingLabel = function () {
 // scroll
 var scrollWindow = function() {
 	var lastScrollTop = 0;
+	var progressBar = document.getElementById('scrollProgress');
+
 	$(window).scroll(function(event){
 		var $w = $(this),
 				st = $w.scrollTop(),
 				navbar = $('.unslate_co--site-nav');
-				// sd = $('.js-scroll-wrap');
+
+		// Scroll progress bar
+		if (progressBar) {
+			var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+			var progress = docHeight > 0 ? (st / docHeight) * 100 : 0;
+			progressBar.style.width = progress + '%';
+		}
 
 		if (st > 150) {
 			if ( !navbar.hasClass('scrolled') ) {
-				navbar.addClass('scrolled');	
+				navbar.addClass('scrolled');
 			}
-		} 
+		}
 		if (st < 150) {
 			if ( navbar.hasClass('scrolled') ) {
 				navbar.removeClass('scrolled sleep');
 			}
-		} 
+		}
 		if ( st > 350 ) {
 			if ( !navbar.hasClass('awake') ) {
-				navbar.addClass('awake');	
-			} 
+				navbar.addClass('awake');
+			}
 
 			// hide / show on scroll
 			if (st > lastScrollTop){
 	      // downscroll code
-	      navbar.removeClass('awake');	
-	      navbar.addClass('sleep');	
+	      navbar.removeClass('awake');
+	      navbar.addClass('sleep');
 	   	} else {
 	      // upscroll code
-	      navbar.addClass('awake');	
+	      navbar.addClass('awake');
 	   	}
 	   	lastScrollTop = st;
-			
+
 
 		}
 		if ( st < 350 ) {
@@ -334,8 +342,6 @@ var scrollWindow = function() {
 				navbar.addClass('sleep');
 			}
 		}
-
-   
 
 	});
 
@@ -598,6 +604,67 @@ var stickyFillPlugin = function() {
 	var elements = document.querySelectorAll('.unslate_co--sticky');
 	Stickyfill.add(elements);
 };
+
+// Heading underline draw-in on scroll
+(function() {
+	var headings = document.querySelectorAll('.heading-h2');
+	if (!headings.length) return;
+	var observer = new IntersectionObserver(function(entries) {
+		entries.forEach(function(entry) {
+			if (entry.isIntersecting) {
+				entry.target.classList.add('revealed');
+				observer.unobserve(entry.target);
+			}
+		});
+	}, { threshold: 0.3 });
+	headings.forEach(function(h) { observer.observe(h); });
+})();
+
+// Typewriter effect for hero subtitle
+(function() {
+	var el = document.getElementById('typewriter-text');
+	if (!el) return;
+	var phrases = ['@UBC', 'ASICs', 'FPGAs', 'Analog ICs', 'PCBs'];
+	var phraseIndex = 0;
+	var charIndex = 0;
+	var isDeleting = false;
+	var cursor = document.createElement('span');
+	cursor.className = 'typewriter-cursor';
+	el.appendChild(cursor);
+
+	function type() {
+		var current = phrases[phraseIndex];
+		var displayed = isDeleting
+			? current.substring(0, charIndex - 1)
+			: current.substring(0, charIndex + 1);
+
+		// Update text without disturbing cursor
+		el.childNodes[0].nodeValue = displayed;
+		charIndex = isDeleting ? charIndex - 1 : charIndex + 1;
+
+		var delay = isDeleting ? 50 : 90;
+
+		if (!isDeleting && charIndex === current.length) {
+			delay = 2000; // pause at end
+			isDeleting = true;
+		} else if (isDeleting && charIndex === 0) {
+			isDeleting = false;
+			phraseIndex = (phraseIndex + 1) % phrases.length;
+			delay = 400;
+		}
+
+		setTimeout(type, delay);
+	}
+
+	// Wait for GSAP hero reveal to finish (~2.5s) then start
+	setTimeout(function() {
+		// Replace inner HTML with a text node + cursor
+		el.innerHTML = '';
+		el.appendChild(document.createTextNode(''));
+		el.appendChild(cursor);
+		type();
+	}, 2500);
+})();
 
 var animateReveal = function() {
 

@@ -59,14 +59,14 @@ body, .unslate_co--site-inner {
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: 0.4;
+  opacity: 0.25;
   mix-blend-mode: screen;
 }
 
 .blur-orb-1 {
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(100, 200, 255, 0.8) 0%, rgba(100, 200, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0) 70%);
   top: -150px;
   left: -150px;
   animation: float1 20s ease-in-out infinite;
@@ -75,7 +75,7 @@ body, .unslate_co--site-inner {
 .blur-orb-2 {
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, rgba(150, 100, 255, 0.8) 0%, rgba(150, 100, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.9) 0%, rgba(99, 102, 241, 0) 70%);
   top: 15%;
   right: -100px;
   animation: float2 25s ease-in-out infinite;
@@ -84,7 +84,7 @@ body, .unslate_co--site-inner {
 .blur-orb-3 {
   width: 450px;
   height: 450px;
-  background: radial-gradient(circle, rgba(100, 255, 200, 0.6) 0%, rgba(100, 255, 200, 0) 70%);
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.7) 0%, rgba(34, 211, 238, 0) 70%);
   bottom: -200px;
   left: 5%;
   animation: float3 30s ease-in-out infinite;
@@ -93,7 +93,7 @@ body, .unslate_co--site-inner {
 .blur-orb-4 {
   width: 380px;
   height: 380px;
-  background: radial-gradient(circle, rgba(255, 150, 150, 0.7) 0%, rgba(255, 150, 150, 0) 70%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.5) 0%, rgba(59, 130, 246, 0) 70%);
   top: 45%;
   right: 0%;
   animation: float4 22s ease-in-out infinite;
@@ -102,7 +102,7 @@ body, .unslate_co--site-inner {
 .blur-orb-5 {
   width: 420px;
   height: 420px;
-  background: radial-gradient(circle, rgba(200, 150, 255, 0.7) 0%, rgba(200, 150, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.5) 0%, rgba(99, 102, 241, 0) 70%);
   bottom: 5%;
   right: 10%;
   animation: float5 28s ease-in-out infinite;
@@ -323,8 +323,11 @@ a, a:hover {
   z-index: 1002;
   width: 100%;
   top: 0;
-  background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 50%, #1d4ed8 100%);
-  box-shadow: 0 4px 15px rgba(30, 58, 138, 0.4);
+  background: rgba(10, 18, 40, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(74, 144, 226, 0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
 .unslate_co--site-nav .container {
@@ -648,9 +651,12 @@ b {
   left: 0;
   top: 0;
   margin-top: -130px;
-  background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 50%, #1d4ed8 100%) !important;
-  -webkit-box-shadow: 0 0 10px 0 rgba(30, 58, 138, 0.4);
-  box-shadow: 0 0 10px 0 rgba(30, 58, 138, 0.4);
+  background: rgba(10, 18, 40, 0.92) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(74, 144, 226, 0.15);
+  -webkit-box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
   padding-top: 5px;
   padding-bottom: 5px;
 }
@@ -1333,9 +1339,14 @@ b {
   bottom: -10px;
   left: 0;
   height: 3px;
-  width: 50px;
+  width: 0;
   background: linear-gradient(90deg, #4a90e2 0%, #357abd 100%);
   border-radius: 2px;
+  transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.heading-h2.revealed:after {
+  width: 50px;
 }
 
 .heading-h2.divider:before {
@@ -2370,4 +2381,54 @@ span.error {
 
 .owl-carousel .owl-dot:hover {
   background: rgba(120, 169, 255, 0.6) !important;
+}
+
+/* Scroll Progress Bar */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #4a90e2 0%, #fbbf24 100%);
+  z-index: 9999;
+  pointer-events: none;
+  transition: width 0.05s linear;
+}
+
+/* Portfolio Category Accent Borders */
+.item.elec401 .portfolio-item { --cat-color: #4a90e2; }
+.item.cpen311 .portfolio-item { --cat-color: #fbbf24; }
+.item.year2 .portfolio-item { --cat-color: #6366f1; }
+
+.portfolio-item {
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.portfolio-item:hover {
+  box-shadow: inset 0 3px 0 var(--cat-color, #4a90e2);
+}
+
+/* Typewriter cursor */
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: #fbbf24;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
